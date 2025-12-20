@@ -1,0 +1,9 @@
+:8001 {
+  @notget { not method GET }
+  respond @notget "Method Not Allowed" 405
+
+  reverse_proxy 127.0.0.1:8000 {
+    header_up Connection "close"
+    transport http { versions 1.0 }
+  }
+}

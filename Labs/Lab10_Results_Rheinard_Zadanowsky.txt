@@ -1,0 +1,18 @@
+Rheinard Zadanowsky
+ICSI 333-System Fundamentals 
+Lab 10 Results
+Section Friday @ 8:30am
+
+I worked on the lab for about 30 minutes. I ran the lab the first time at the 10 minute mark, which printed a result
+of a threaded sum that was less than the real actual sum. The problem here was that the threaded sum needed to equal
+to the actual real sum but it wasn't. So the issue was the fact that the two threads were trying to sum 1/2 of the
+integer array were accessing a global counter to store that sum at the same time. So whatever data the first thread
+stores at the global counter is overridden by the modified data of the second thread, which results in the threaded
+sum not equaling to the real actual sum. 
+
+I reran the program the second time at the 15 minute mark with a semaphore to lock and unlock the global counter variable for the threaded sum but the result was still actually less than the actual result. The issue was still the fact that
+the modified data of the first thread is still being overriden by the modified data of the second thread. Hence the result was still incorrect.
+
+Finally, I reran the program at the 23 minute mark this time having a local variable for each thread count the total then storing that total to the global variable when finished. With a semaphore to lock, indicating the critical section of the program where one thread is accessing and modifying shared data and then unlocking it once the change is done where
+another thread can then make any further changes. This in the end got a threaded sum to equal to the actual real sum. This suggested solution was correct because it avoids any race condition from happening, where more than one thread acceses shared data at the same time and modifies that data. Which leads to any changes by other threads being overriden. The semaphore lock and local variable it enables each thread to save local changes to a temporary variable specific to theirrunning process and then the semaphore locks the global counter which only allows one thread at a time to access and modify the variable, which in the end resulted on the sum of thread 1 being saved then added to the sum of thread 2 which equated to the actual real sum.
+

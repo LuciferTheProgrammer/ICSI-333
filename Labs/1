@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include <semaphore.h>
+#include <stdlib.h>
+#include <time.h>
+#include <pthread.h>
+
+int threadCounter = 0;
+#define SIZE 1000000
+sem_t mySem;
+
+void *threadCountingMethod(void *pass) {
+	int *switchAround = (int*)pass;
+	for(int i = 0; i < (SIZE/2); i++) {
+		sem_wait(&mySem);
+		threadCounter += switchAround[i];
+		sem_post(&mySem);
+	}
+	pthread_exit(NULL);
+}
+int main() {
+	int tracker = 0;
+	int numThreads = 2;
+	int myArray[SIZE];
+	srand(time(0));
+	int counter = 0;
+	sem_init(&mySem, 0, 1);
+       	for(int i = 0; i < SIZE; i++) {
+		int randomNumber = rand() % 10;
+		myArray[i] = randomNumber;
+		counter += myArray[i];
+	}
+	printf("The value of the global counter without threading is %d.\n", counter);
+	int *holder = myArray;
+	pthread_t myThreads[numThreads];
+	for (int i = 0; i < numThreads; i++) {
+		pthread_create(&myThreads[tracker], NULL, threadCountingMethod, (void*)holder);
+		tracker++;
+	}
+	tracker = 0;
+	for(int i = 0; i < numThreads; i++) {
+		pthread_join(myThreads[i], NULL);
+		tracker++;
+		printf("The threaded sum from thread %d is %d.\n", tracker, threadCounter);
+
+	}
+	return 0;
+
+
+}
