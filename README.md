@@ -1,4 +1,5 @@
 ICSI333 - System Fundamentals  
+Main applications are contained in the Projects folder
 
 # Words Without Friends - Web Version in C
 This project is a web-based version of a word puzzle game called **Words Without Friends**, written in C. The program runs a simple web server that allows the game to be played through a browser instead of only through the terminal.
